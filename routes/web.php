@@ -31,9 +31,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/event', [EventController::class, 'index'])->name('event.index');
+
     Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
     Route::get('/event/edit', [EventController::class, 'edit'])->name('event.edit');
-
+    Route::post('/event', [EventController::class, 'store'])->name('event.store');
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
     Route::get('/category/edit', [CategoryController::class, 'edit'])->name('category.edit');
