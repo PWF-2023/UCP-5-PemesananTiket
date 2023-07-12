@@ -6,8 +6,8 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7x1 mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
             <div class="p-6 text-xl text-gray-900 dark:text-gray-100">
                     <div class ="flex items-center justify-between">
                         <div>
@@ -36,11 +36,14 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
-                                                event
+                                                Event
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                                Category
                                 </th>
                                 <th scope="col" class="hidden px-6 py-3 md:block">
                                                 Status
-                                </th>
+                                </th>                                
                                 <th scope="col" class="px-6 py-3">
                                                 Action
                                 </th>
@@ -53,26 +56,59 @@
                                     <a href="{{ route('event.edit', $event) }}" class="hover:underline">{{ $event->event }}</a>
 
                                 </td>
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                    @if ($event->category_id == null)
+                                        <span></span>
+                                    @else
+                                        {{ $event->category->tittle }}
+                                    @endif
+                                </td>
                                 <td class ="hidden px-6 py-4 md:block">
                                     @if ($event->is_complete == false)
 
                                     <span 
                                         class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                                                        Outgoing
+                                                        Available
 
                                     </span>
-
-                                    @else
+@else
                                     <span 
-                                        class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-                                                        Completed
+                                        class="bg-green-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                                        Sold Out
 
                                     </span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex space-x-3">
-
+                                        {{-- Action Here --}}
+                                        @if ($event->is_complete == false)
+                                        <form action="{{ route('event.complete', $event) }}" method="Post">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="text-green-600 dark:text-green-400">
+                                                                            Complete
+                                            </button>        
+                                        </form>     
+                                        @else
+                                        <form action="{{ route('event.uncomplete', $event) }}" method="Post">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="text-blue-600 dark:text-blue-400">
+                                                                            UnComplete
+                                            </button>        
+                                        </form>                       
+                                        @endif
+                                        <form action="{{ route('event.destroy', $event) }}" method="Post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="text-red-600 dark:text-red-400">
+                                                                            Delete
+                                            </button>        
+                                        </form> 
                                     </div>
                                 </td>
                             </tr>
@@ -85,6 +121,18 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+                @if ($eventsCompleted > 1)
+                <div class="p-6 text-xl text-gray-900 dark:text-gray-100">
+                    <form action="{{ route('event.deleteallcompleted', $event) }}" method="Post">
+                        @csrf
+                        @method('delete')
+                        <x-primary-button>
+                                Delete All Completed Event
+                        </x-primary-button>        
+                    </form> 
+                </div>
+                @endif
             </div>
         </div>
     </div>
