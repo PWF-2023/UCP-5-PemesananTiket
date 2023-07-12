@@ -9,11 +9,15 @@ class Category extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'title',
+        'tittle',
         'user_id',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-    public function todo()
+    public function events()
     {
         return $this->hasMany(Event::class);
     }

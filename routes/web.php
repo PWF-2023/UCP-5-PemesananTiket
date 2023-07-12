@@ -31,15 +31,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/event', [EventController::class, 'index'])->name('event.index');
-
     Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
-    Route::get('/event/edit', [EventController::class, 'edit'])->name('event.edit');
     Route::post('/event', [EventController::class, 'store'])->name('event.store');
+    Route::get('/event/{event}/edit', [EventController::class, 'edit'])->name('event.edit');
+    Route::patch('/event/{event}', [EventController::class, 'update'])->name('event.update');
+    Route::patch('/event/{event}/complete', [EventController::class, 'complete'])->name('event.complete');
+    Route::patch('/event/{event}/incomplete', [EventController::class, 'uncomplete'])->name('event.uncomplete');
+    Route::delete('/event/{event}', [EventController::class, 'destroy'])->name('event.destroy');
+    Route::delete('/event', [EventController::class, 'destroyCompleted'])->name('event.deleteallcompleted');
+
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+    Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
     Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
-    Route::get('/category/edit', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::get('/category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::patch('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 });
 
 require __DIR__.'/auth.php';
