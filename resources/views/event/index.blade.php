@@ -41,6 +41,9 @@
                                 <th scope="col" class="px-6 py-3">
                                                 Category
                                 </th>
+                                <th scope="col" class="px-6 py-3">
+                                                Jumlah Tiket
+                                </th>
                                 <th scope="col" class="hidden px-6 py-3 md:block">
                                                 Status
                                 </th>                                
@@ -53,15 +56,16 @@
                             @forelse ($events as $event)
                             <tr class="odd:bg-white odd:dark:bg-gray-800 even:bg-gray-50 even:dark:bg-gray-700">
                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                    <a href="{{ route('event.edit', $event) }}" class="hover:underline">{{ $event->event }}</a>
+                                    <a href="{{ route('event.description', $event) }}" class="hover:underline">{{ $event->event }}</a>
 
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                    @if ($event->category_id == null)
-                                        <span></span>
-                                    @else
-                                        {{ $event->category->tittle }}
+                                    @if ($event->category)
+                                    {{ $event->category->tittle }}
                                     @endif
+                                </td>
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                    {{ $event->jumlah }}
                                 </td>
                                 <td class ="hidden px-6 py-4 md:block">
                                     @if ($event->is_complete == false)
@@ -71,7 +75,7 @@
                                                         Available
 
                                     </span>
-@else
+                                    @else
                                     <span 
                                         class="bg-green-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
                                                         Sold Out
@@ -108,7 +112,14 @@
                                                 class="text-red-600 dark:text-red-400">
                                                                             Delete
                                             </button>        
-                                        </form> 
+                                        </form>
+                                        <form action="{{ route('event.edit', $event) }}" method="Get">
+                                            @csrf
+                                            @method('GET')
+                                            <button type="submit"
+                                                class="text-yellow-600 dark:text-yellow-400">
+                                                                            Edit                                            </button>        
+                                        </form>  
                                     </div>
                                 </td>
                             </tr>

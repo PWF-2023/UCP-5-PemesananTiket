@@ -25,7 +25,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
     Route::post('/event', [EventController::class, 'store'])->name('event.store');
     Route::get('/event/{event}/edit', [EventController::class, 'edit'])->name('event.edit');
+    Route::get('/event/{event}/description', [EventController::class, 'description'])->name('event.description');
     Route::patch('/event/{event}', [EventController::class, 'update'])->name('event.update');
     Route::patch('/event/{event}/complete', [EventController::class, 'complete'])->name('event.complete');
     Route::patch('/event/{event}/incomplete', [EventController::class, 'uncomplete'])->name('event.uncomplete');

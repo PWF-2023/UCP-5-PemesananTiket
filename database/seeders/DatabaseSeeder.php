@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use App\Models\Event;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
         User::factory(100)->create();
+        Category::factory(15)->create();
         Event::factory(100)->create();
     }
 }

@@ -18,7 +18,10 @@ class EventFactory extends Factory
     {
         return [
             'user_id' => rand(1, 100),
+            'category_id' => rand(1, 100),
             'event' => ucwords(fake()->sentence()),
+            'description' => ucwords(fake()->paragraph()),
+            'jumlah' => rand(1, 100),
             'is_complete' => rand(0, 1)
         ];
     }
