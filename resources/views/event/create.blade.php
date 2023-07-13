@@ -30,6 +30,20 @@
                             <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
                         </div>
 
+                        <div class="mb-6">
+                            <x-input-label for="description" :value="('Deskripsi')" />
+                            <x-text-input id="description" name="description" type="text" class="block w-full mt-1" required
+                                autofocus autocomplete="description" />
+                            <x-input-error class="mt-2" :messages="$errors->get('description')" />
+                        </div>
+
+                        <div class="mb-6">
+                            <x-input-label for="jumlah" :value="('Jumlah Tiket')" />
+                            <x-text-input id="jumlah" name="jumlah" type="text" class="block w-full mt-1" required
+                                autofocus autocomplete="jumlah" />
+                            <x-input-error class="mt-2" :messages="$errors->get('jumlah')" />
+                        </div>
+
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ ('Save') }}</x-primary-button>
                             <a href="{{ route('event.index') }}"

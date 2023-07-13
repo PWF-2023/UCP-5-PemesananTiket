@@ -14,6 +14,8 @@ class Event extends Model
         'user_id',
         'is_complete',
         'category_id',
+        'jumlah',
+        'description',
     ];
 
     public function user()

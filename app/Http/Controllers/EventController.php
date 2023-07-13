@@ -13,7 +13,6 @@ class EventController extends Controller
         $events =  Event::where('user_id', auth()->user()->id)
         ->orderBy('is_complete', 'asc')
         ->orderBy('created_at', 'desc')
-        // ->with('category')
         ->get();
         //dd($events);
         $eventsCompleted = Event::where('user_id', auth()->user()->id)
@@ -28,12 +27,6 @@ class EventController extends Controller
     }
     public function edit(Event $event)
     {
-        // if (auth()->user()->id == $event->user_id) {
-        //    return view('event.edit', compact('event'));
-        // } else {
-        //    return redirect()->route('event.index')->with('danger', 'You are not authorized to edit this event!');
-        // }
-
         // CODE AFTER REFACTORINGS
         $categories = Category::where('user_id', auth()->user()->id)->get();
         if (auth()->user()->id == $event->user_id) {
@@ -41,16 +34,27 @@ class EventController extends Controller
         }
         return redirect()->route('event.index')->with('danger', 'You are not authorized to edit this event!');
     }
+    public function description(Event $event)
+    {
+        // CODE AFTER REFACTORINGS
+        $categories = Category::where('user_id', auth()->user()->id)->get();
+        if (auth()->user()->id == $event->user_id) {
+            return view('event.description', compact(['event', 'categories']));
+        }
+        return redirect()->route('event.index')->with('danger', 'You are not authorized to view this event!');
+    }
     public function update(Request $request, Event $event)
     {
         $request->validate([
             'event' => 'required|max:255',
             'category_id',
+            'jumlah' => 'required',
         ]);
 
         $event->update([
             'event' => ucfirst($request->event),
             'category_id' => $request->category_id,
+            'jumlah' => $request->jumlah,
         ]);
         return redirect()->route('event.index')->with('success', 'Event Updated Successfully!');
     }
@@ -103,26 +107,17 @@ class EventController extends Controller
         $request->validate([
             'event' => 'required|max:255',
             'category_id',
+            'jumlah' => 'required',
+            'description',
             ]);
-
-        // Practical
-        // $event = new event;
-        // $event->event = $request->event;
-        // $event->user_id = auth()->user()->id;
-        // $tood->save();
-// Query Builder way
-        // DB::table('events')->insert([
-        //      'event' => $request->title,
-        //      'user_id' => auth()->user()->id,
-        //      'created_at' => now(),
-        //      'updated_at' =>now(), 
-        // ]);
 
         // Eloquent Way - Readable
         $event = Event::create([
             'event' => ucfirst($request->event),
             'user_id' => auth()->user()->id,
             'category_id' => $request->category_id,
+            'jumlah' => $request->jumlah,
+            'description' => $request->description,
             ]);
         
         return redirect()->route('event.index')->with('success', 'Event Created Successfully!');
