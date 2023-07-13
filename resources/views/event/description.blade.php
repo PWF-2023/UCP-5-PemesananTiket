@@ -30,6 +30,9 @@
                             <x-input-label for="jumlah" :value="('Jumlah Tiket')" />
                             <b>{{ $event->jumlah }}</b>
                         </div>
+                        <div class="flex items-center gap-4">
+                            <x-back-button href="{{ route('event.index') }}" />
+                        </div>
                 </div>
             </div>
         </div>
