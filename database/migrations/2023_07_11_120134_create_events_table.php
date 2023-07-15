@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('event');
+            $table->text('description');
+            $table->integer('jumlah');
             $table->boolean('is_complete')->default(0);
             $table->timestamps();
         });
